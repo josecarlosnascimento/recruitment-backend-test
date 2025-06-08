@@ -1,0 +1,41 @@
+services:
+  mysql-teste:
+    container_name: mysql-teste
+    image: mysql
+    ports:
+      - "58082:3306"
+    networks:
+      - teste-network
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=true
+    volumes:
+      - ./data/mysql-data:/var/lib/mysql
+
+  redis-teste:
+    container_name: redis-teste
+    image: redis
+    ports:
+      - "58083:6379"
+    networks:
+      - teste-network
+    volumes:
+      - ./data/redis-data:/data
+
+  mongo-teste:
+    container_name: mongo-teste
+    image: mongo
+    restart: always
+    ports:
+      - "58084:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: Teste123
+    networks:
+      - teste-network
+    volumes:
+      - ./data/mongo-data:/data/db
+
+networks:
+  teste-network:
+    name: teste-network
+    driver: bridge

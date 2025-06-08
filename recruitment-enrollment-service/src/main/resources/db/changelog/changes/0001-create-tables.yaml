@@ -1,0 +1,29 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-enrollment-table
+      author: vcazelli
+      changes:
+        - createTable:
+            tableName: enrollment
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: course_price_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: duration
+                  type: int
+                  constraints:
+                    nullable: false

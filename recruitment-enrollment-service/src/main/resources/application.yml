@@ -1,0 +1,34 @@
+spring:
+  jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:58082/enrollment?useSSL=false&allowPublicKeyRetrieval=true
+    username: enrollment-user
+    password: enrollment
+    hikari:
+      transaction-isolation: TRANSACTION_READ_COMMITTED
+      connection-timeout: 30000
+      idle-timeout: 300000
+      max-lifetime: 900000
+      minimum-idle: 1
+      maximum-pool-size: 3
+  autoconfigure.exclude: org.redisson.spring.starter.RedissonAutoConfigurationV2
+  application.name: recruitment-enrollment-service
+  jackson:
+    serialization:
+      indent_output: true
+      write_dates_as_timestamps: false
+  data:
+    mongodb:
+      uri: mongodb://enrollment-user:enrollment@localhost:58084/enrollment?retryWrites=true&w=majority
+      authentication-database: admin
+      auto-index-creation: true
+  cache.type: redis
+server:
+  port: 58080
+  servlet.context-path: /recruitment-enrollment-service
+client:
+  financial:
+    url: http://localhost:58081/recruitment-financial-service
+logging.level.ROOT: INFO

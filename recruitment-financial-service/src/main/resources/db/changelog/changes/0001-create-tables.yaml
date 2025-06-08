@@ -1,0 +1,40 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-instalment-table
+      author: vcazelli
+      changes:
+        - createTable:
+            tableName: instalment
+            schemaName: financial
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: enrollment_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: amount
+                  type: decimal(10,2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: due_date
+                  type: date
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: paid_amount
+                  type: decimal(10,2)
+                  constraints:
+                    nullable: true
