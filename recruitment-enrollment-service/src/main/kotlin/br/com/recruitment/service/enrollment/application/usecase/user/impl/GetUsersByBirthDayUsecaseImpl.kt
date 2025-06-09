@@ -27,10 +27,12 @@ class GetUsersByBirthDayUsecaseImpl(
 ) : GetUsersByBirthDayUsecase {
 
     @Scheduled(cron = "*/10 * * * * *")
-    override fun execute(): List<User> {
-       var users =  findUsersByBirthDayGateway
-            .findByBirthDay(LocalDate.of(2001,6, 1).atTime(LocalTime.MIN),
-                            LocalDate.of(2001,6, 1).atTime(LocalTime.MAX),)
+    override fun execute() {
+        var users = findUsersByBirthDayGateway
+            .findByBirthDay(
+                LocalDate.now().atTime(LocalTime.MIN),
+                LocalDate.now().atTime(LocalTime.MAX),
+            )
 
         var totalPaidAmount = BigDecimal.ZERO;
         var courseTotalPrice = BigDecimal.ZERO;
@@ -38,14 +40,13 @@ class GetUsersByBirthDayUsecaseImpl(
         var instalmentsIds: MutableList<String> = mutableListOf()
 
         users
-            .forEach{
-                user ->
+            .forEach { user ->
 
                 var enrollments = findEnrollmentByUserIdUsecaseImpl.execute(user.id)
 
-                enrollments.forEach{
-                    enrollment ->
-                    var sum = getCoursePriceByIdImpl.execute(enrollment.coursePriceId).price.multiply(enrollment.duration.toBigDecimal());
+                enrollments.forEach { enrollment ->
+                    var sum =
+                        getCoursePriceByIdImpl.execute(enrollment.coursePriceId).price.multiply(enrollment.duration.toBigDecimal());
                     courseTotalPrice = courseTotalPrice.add(sum)
                     instalmentsIds.addAll(findInstalmentsIdsByEnrollmentIdGatewayImpl.execute(enrollment.id));
                 }
@@ -55,14 +56,12 @@ class GetUsersByBirthDayUsecaseImpl(
                     totalPaidAmount = dto.paidAmount;
                 }
 
-                println("ID USUARIO: "+ user.id)
-                println("NOME USUARIO: "+ user.fullName)
-                println("NASCIMENTO USUARIO: "+ user.birthDate)
-                println("TOTAL PAGO: "+ totalPaidAmount)
-                println("RESTANTE: "+ courseTotalPrice.subtract(totalPaidAmount))
+                println("ID USUARIO: " + user.id)
+                println("NOME USUARIO: " + user.fullName)
+                println("NASCIMENTO USUARIO: " + user.birthDate)
+                println("TOTAL PAGO: " + totalPaidAmount)
+                println("RESTANTE: " + courseTotalPrice.subtract(totalPaidAmount))
                 println("---------------------------------------------------------------------------------------------")
             }
-
-        return users;
     }
 }

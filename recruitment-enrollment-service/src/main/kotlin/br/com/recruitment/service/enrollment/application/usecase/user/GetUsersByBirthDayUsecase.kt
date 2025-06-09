@@ -4,5 +4,5 @@ import br.com.recruitment.service.enrollment.domain.user.User
 import java.util.*
 
 fun interface GetUsersByBirthDayUsecase {
-    fun execute(): List<User>
+    fun execute()
 }
